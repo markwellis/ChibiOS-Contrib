@@ -24,6 +24,10 @@
 
 #include "hal.h"
 
+#ifndef HT32_ST_TICKS_PER_IRQ
+#define HT32_ST_TICKS_PER_IRQ 1U
+#endif
+
 #if (OSAL_ST_MODE != OSAL_ST_MODE_NONE) || defined(__DOXYGEN__)
 
 /*===========================================================================*/
@@ -61,7 +65,9 @@ OSAL_IRQ_HANDLER(SysTick_Handler) {
   OSAL_IRQ_PROLOGUE();
 
   osalSysLockFromISR();
-  osalOsTimerHandlerI();
+  for (uint32_t ticks = HT32_ST_TICKS_PER_IRQ; ticks; --ticks) {
+    osalOsTimerHandlerI();
+  }
   osalSysUnlockFromISR();
 
   OSAL_IRQ_EPILOGUE();

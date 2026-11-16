@@ -174,7 +174,7 @@ void gpt_lld_stop(GPTDriver *gptp) {
 void gpt_lld_start_timer(GPTDriver *gptp, gptcnt_t interval) {
     gptp->BFTM->SR = 0;
     gptp->BFTM->CNTR = 0;
-    gptp->BFTM->CMP = (HT32_CK_AHB_FREQUENCY / gptp->config->frequency) * interval;
+    gptp->BFTM->CMP = (HT32_GPT_CLOCK / gptp->config->frequency) * interval;
     gptp->BFTM->CR = BFTM_CR_CEN | BFTM_CR_MIEN;
 }
 
@@ -203,7 +203,7 @@ void gpt_lld_stop_timer(GPTDriver *gptp) {
 void gpt_lld_polled_delay(GPTDriver *gptp, gptcnt_t interval) {
     gptp->BFTM->SR = 0;
     gptp->BFTM->CNTR = 0;
-    gptp->BFTM->CMP = (HT32_CK_AHB_FREQUENCY / gptp->config->frequency) * interval;
+    gptp->BFTM->CMP = (HT32_GPT_CLOCK / gptp->config->frequency) * interval;
     gptp->BFTM->CR = BFTM_CR_CEN | BFTM_CR_OSM;
     while(!(gptp->BFTM->SR & BFTM_SR_MIF))
         ;

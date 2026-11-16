@@ -24,6 +24,10 @@
 
 #include "hal.h"
 
+#ifndef HT32_SERIAL_CLOCK
+#define HT32_SERIAL_CLOCK HT32_CK_USART_FREQUENCY
+#endif
+
 #if (HAL_USE_SERIAL == TRUE) || defined(__DOXYGEN__)
 
 /*===========================================================================*/
@@ -118,7 +122,7 @@ static void serialInterrupt(SerialDriver *pSd) {
 static void usartInit(SerialDriver *sdp, const SerialConfig *config) {
     USART_TypeDef *u = sdp->usart;
 
-    u->DLR = (uint32_t)(HT32_CK_USART_FREQUENCY / config->speed);                      /* Data Rate */
+    u->DLR = (uint32_t)(HT32_SERIAL_CLOCK / config->speed);                      /* Data Rate */
     u->CR  = (UART_CR_MODE_NORMAL | UART_CR_URTXEN | UART_CR_URRXEN | UART_CR_WLS_8B); /* 8-bit, one stop, no parity */
     u->FCR = USART_FCR_TXR | USART_FCR_RXR;                                            // Reset FIFOs.
     u->IER = USART_IER_RXDRIE | USART_IER_TXDEIE | USART_IER_TXCIE;

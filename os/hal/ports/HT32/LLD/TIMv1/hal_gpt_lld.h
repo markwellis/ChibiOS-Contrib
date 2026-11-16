@@ -25,6 +25,10 @@
 #ifndef HAL_GPT_LLD_H
 #define HAL_GPT_LLD_H
 
+#ifndef HT32_GPT_CLOCK
+#define HT32_GPT_CLOCK HT32_CK_AHB_FREQUENCY
+#endif
+
 #if (HAL_USE_GPT == TRUE) || defined(__DOXYGEN__)
 
 /*===========================================================================*/
@@ -138,7 +142,7 @@ struct GPTDriver {
  * @notapi
  */
 #define gpt_lld_change_interval(gptp, interval) \
-    ((gptp)->BFTM->CMP = (HT32_CK_AHB_FREQUENCY / (gptp)->config->frequency) * (interval))
+    ((gptp)->BFTM->CMP = (HT32_GPT_CLOCK / (gptp)->config->frequency) * (interval))
 
 /**
  * @brief   Returns the interval of GPT peripheral.
@@ -149,7 +153,7 @@ struct GPTDriver {
  * @notapi
  */
 #define gpt_lld_get_interval(gptp) \
-    ((gptcnt_t)(gptp)->BFTM->CMP / (HT32_CK_AHB_FREQUENCY / (gptp)->config->frequency))
+    ((gptcnt_t)(gptp)->BFTM->CMP / (HT32_GPT_CLOCK / (gptp)->config->frequency))
 
 /**
  * @brief   Returns the counter value of GPT peripheral.
@@ -162,7 +166,7 @@ struct GPTDriver {
  * @notapi
  */
 #define gpt_lld_get_counter(gptp) \
-    ((gptcnt_t)((gptp)->BFTM->CNTR / (HT32_CK_AHB_FREQUENCY / (gptp)->config->frequency)))
+    ((gptcnt_t)((gptp)->BFTM->CNTR / (HT32_GPT_CLOCK / (gptp)->config->frequency)))
 
 /*===========================================================================*/
 /* External declarations.                                                    */
