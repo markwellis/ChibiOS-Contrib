@@ -417,7 +417,7 @@ void usb_lld_start(USBDriver *usbp){
  */
 void usb_lld_stop(USBDriver *usbp) {
 
-    if (usbp->state == USB_READY) {
+    if (usbp->state != USB_STOP) {
         /* Resets the peripheral.*/
 
         /* Disables the peripheral.*/
